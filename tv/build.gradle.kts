@@ -9,27 +9,18 @@ android {
 
     defaultConfig {
         applicationId = "com.nasim.launcher.tv"
-        minSdk = 28
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "2.0"
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            // توقيع بمفتاح debug عشان الـ APK يتثبت مباشرة بدون keystore
-            signingConfig = signingConfigs.getByName("debug")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions { jvmTarget = "17" }
 }
 
 dependencies {
     implementation(project(":common"))
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.zxing:core:3.5.2")
 }
