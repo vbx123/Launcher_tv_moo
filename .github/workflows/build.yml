@@ -1,34 +1,46 @@
-name: Build APKs
+name: Build moo_lan_tv APKs
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.9
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
 
-      - name: Build TV + Mobile
-        run: gradle :tv:assembleRelease :mobile:assembleRelease --no-daemon --stacktrace
+    - name: Grant Execute Permission for Gradle Wrapper
+      run: chmod +x gradlew || true
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Nasim-TV-Launcher
-          path: tv/build/outputs/apk/release/*.apk
+    - name: Build TV APK
+      run: ./gradlew :tv:assembleDebug
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Nasim-Mobile-Remote
-          path: mobile/build/outputs/apk/release/*.apk
+    - name: Build Mobile Companion APK
+      run: ./gradlew :mobile:assembleDebug
+
+    - name: Upload TV Launcher APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: moo_lan_tv_TV_Launcher.apk
+        path: tv/build/outputs/apk/debug/*.apk
+
+    - name: Upload Mobile Companion APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: moo_lan_tv_Mobile_Remote.apk
+        path: mobile/build/outputs/apk/debug/*.apk
