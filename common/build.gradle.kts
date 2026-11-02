@@ -6,14 +6,13 @@ plugins {
 android {
     namespace = "com.nasim.launcher.common"
     compileSdk = 34
-    defaultConfig { minSdk = 28 }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+
+    defaultConfig {
+        minSdk = 21
     }
-    kotlinOptions { jvmTarget = "17" }
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.8.2")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
